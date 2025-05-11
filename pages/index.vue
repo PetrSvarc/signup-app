@@ -13,24 +13,38 @@
       <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <form @submit.prevent="handleSubmit" class="space-y-6">
           <FormInput
-            v-model="form.email"
+            id="email"
+            v-model="email"
             label="Email address"
             type="email"
             required
-            :error-message="errors.email"
+            :error-message="emailError"
           />
 
           <FormInput
-            v-model="form.password"
+            id="password"
+            v-model="password"
             label="Password"
             type="password"
             required
-            :error-message="errors.password"
+            :error-message="passwordError"
           />
 
+          <div class="flex items-center">
+            <input
+              id="wants-updates"
+              v-model="wantsUpdates"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            />
+            <label for="wants-updates" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">
+              I want to receive updates about new features
+            </label>
+          </div>
+
           <div>
-            <provet-button type="submit" class="w-full">
-              Sign up
+            <provet-button id="submit-button" type="submit" class="w-full" :disabled="isSubmitting">
+              {{ isSubmitting ? 'Signing up...' : 'Sign up' }}
             </provet-button>
           </div>
         </form>
@@ -42,41 +56,32 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import FormInput from '~/components/Form/Input.vue'
+import { useFormSignup } from '~/composables/useFormSignup'
 
-const form = ref({
-  email: '',
-  password: ''
-})
+const {
+  email,
+  password,
+  wantsUpdates,
+  emailError,
+  passwordError,
+  validateForm,
+  submit
+} = useFormSignup()
 
-const errors = ref({
-  email: '',
-  password: ''
-})
+const isSubmitting = ref(false)
 
-const handleSubmit = () => {
-  // Reset errors
-  errors.value = {
-    email: '',
-    password: ''
-  }
+const handleSubmit = async () => {
+  if (!validateForm()) return
 
-  // Basic validation
-  if (!form.value.email) {
-    errors.value.email = 'Email is required'
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
-    errors.value.email = 'Please enter a valid email address'
-  }
-
-  if (!form.value.password) {
-    errors.value.password = 'Password is required'
-  } else if (form.value.password.length < 8) {
-    errors.value.password = 'Password must be at least 8 characters long'
-  }
-
-  // If no errors, proceed with form submission
-  if (!errors.value.email && !errors.value.password) {
-    console.log('Form submitted:', form.value)
-    // Add your form submission logic here
+  isSubmitting.value = true
+  try {
+    const success = await submit()
+    if (success) {
+      // Handle successful signup
+      console.log('Signup successful!')
+    }
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
