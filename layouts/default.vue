@@ -8,7 +8,6 @@
               SignUp App
             </NuxtLink>
           </div>
-          <AppThemeToggle />
         </div>
       </nav>
     </header>
