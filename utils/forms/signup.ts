@@ -1,4 +1,4 @@
-import { required, isEmail, minLength } from '~/utils/validators/validators'
+import { required, isEmail, minLength, requiredCheckbox } from '~/utils/validators/validators'
 import type { FormField as FormFieldExternal } from '~/composables/useForm'
 
 type FormField = Omit<FormFieldExternal, 'validate' | 'errorMessage'>

@@ -2,6 +2,7 @@
   <div class="w-full">
     <provet-checkbox
       :id="id"
+      :error="errorMessage"
       v-model="modelValue"
       type="checkbox"
       :label="label"
@@ -18,11 +19,13 @@ interface CheckboxProps {
   modelValue: boolean
   required?: boolean
   disabled?: boolean
+  errorMessage?: string
 }
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
   required: false,
-  disabled: false
+  disabled: false,
+  errorMessage: '',
 })
 
 const emit = defineEmits<{

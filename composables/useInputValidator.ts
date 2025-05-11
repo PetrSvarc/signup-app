@@ -1,11 +1,10 @@
 import { ref } from 'vue'
+import type { ValidatorFn as ExternalValidatorFn } from '~/utils/validators/validators'
 
-type ValidatorFn = (value: string) => string | null
-
-export function useInputValidator(validators: ValidatorFn[]) {
+export function useInputValidator(validators: ExternalValidatorFn[]) {
   const error = ref<string | null>(null)
 
-  const validate = (value: string) => {
+  const validate = (value: string | boolean) => {
     for (const rule of validators) {
       const result = rule(value)
       if (result) {
@@ -21,4 +20,4 @@ export function useInputValidator(validators: ValidatorFn[]) {
     error,
     validate
   }
-} 
+}

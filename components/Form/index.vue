@@ -19,6 +19,7 @@
           :label="field.label"
           :required="field.required"
           :disabled="field.disabled"
+          :error-message="field.errorMessage"
         />
       </template>
     </div>
