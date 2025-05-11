@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit" class="space-y-4">
+  <form @submit.prevent class="space-y-4">
     <div v-for="field in formFields" :key="field.id">
       <template v-if="field.fieldType === 'input'">
         <Input
@@ -22,11 +22,7 @@
         />
       </template>
     </div>
-    <slot name="submit">
-      <button type="submit" class="w-full">
-        Submit
-      </button>
-    </slot>
+    <slot />
   </form>
 </template>
 
@@ -36,7 +32,7 @@ import { useForm } from '~/composables/useForm'
 import Input from '~/components/Form/Input.vue'
 import Checkbox from '~/components/Form/Checkbox.vue'
 
-type FormFieldInput = Omit<FormField, 'validate'>
+type FormFieldInput = Omit<FormField, 'validate' | 'errorMessage'>
 
 interface FormProps {
   fields: FormFieldInput[]
@@ -45,13 +41,23 @@ interface FormProps {
 const props = defineProps<FormProps>()
 
 const emit = defineEmits<{
-  submit: [success: boolean]
+  submit: [data: Record<string, any>]
 }>()
 
-const { formFields, validateForm, submit } = useForm(props.fields)
+const { formFields, submit } = useForm(props.fields)
 
-const onSubmit = async () => {
+const handleSubmit = async () => {
   const success = await submit()
-  emit('submit', success)
+  if (success) {
+    const formData = formFields.value.reduce((acc, field) => {
+      acc[field.name] = field.value
+      return acc
+    }, {} as Record<string, any>)
+    emit('submit', formData)
+  }
 }
+
+defineExpose({
+  submit: handleSubmit
+})
 </script>

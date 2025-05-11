@@ -1,6 +1,6 @@
 type ValidatorValue = string | null | undefined
-type ValidationResult = string | null
-type ValidatorFn = (value: ValidatorValue) => ValidationResult
+export type ValidationResult = string | null
+export type ValidatorFn = (value: ValidatorValue) => ValidationResult
 type ValidationRuleFn = (value: ValidatorValue) => boolean
 
 interface ValidationRule {

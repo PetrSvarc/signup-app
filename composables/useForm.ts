@@ -1,5 +1,6 @@
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { useInputValidator } from './useInputValidator'
+import type { ValidatorFn, ValidationResult } from '../utils/validators/validators'
 
 export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url'
 
@@ -7,23 +8,24 @@ export interface BaseField {
   id: string
   name: string
   label: string
-  value: any
+  value: string | boolean
   required?: boolean
   disabled?: boolean
-  validators?: any[]
+  validators?: ValidatorFn[]
 }
 
 export interface InputField extends BaseField {
   fieldType: 'input'
   type: InputType
-  validate: (value: any) => boolean
-  errorMessage: any
+  validate: (value: string) => boolean
+  errorMessage: Ref<ValidationResult>
 }
 
 export interface CheckboxField extends BaseField {
+  value: boolean
   fieldType: 'checkbox'
   type: 'checkbox'
-  errorMessage: any
+  errorMessage: Ref<ValidationResult>
 }
 
 export type FormField = InputField | CheckboxField
@@ -36,9 +38,8 @@ export function useForm(fields: Omit<FormField, 'validate' | 'errorMessage'>[]) 
     return {
       ...field,
       errorMessage: error,
-      validate: (value: any) => {
-        const isValid = validate(value)
-        return isValid
+      validate: (value: string | boolean) => {
+        return validate(value as string)
       }
     } as FormField
   }))
@@ -49,7 +50,7 @@ export function useForm(fields: Omit<FormField, 'validate' | 'errorMessage'>[]) 
 
     formFields.value.forEach(field => {
       if (field.fieldType === 'input') {
-        const fieldValid = field.validate(field.value)
+        const fieldValid = field.validate(field.value as string)
         if (!fieldValid) {
           isValid = false
         }
