@@ -11,11 +11,38 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <!-- Form will go here -->
         <div class="space-y-6">
-          <!-- Form content will be added in the next step -->
+          <Form
+            ref="formRef"
+            :fields="formFields"
+            @submit="handleSubmit"
+          />
+          <div>
+            <provet-button
+              id="submit-button"
+              @click="handleFormSubmit"
+            >
+              Submit
+            </provet-button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { signupFormFields } from '~/utils/forms/signup'
+
+const formRef = ref()
+const formFields = signupFormFields
+
+const handleFormSubmit = () => {
+  formRef.value?.submit()
+}
+
+const handleSubmit = (data: Record<string, any>) => {
+  console.log('Form data:', data)
+}
+</script>
