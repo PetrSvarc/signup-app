@@ -2,8 +2,7 @@
   <div class="w-full">
     <provet-input
         v-bind="computedInputProps"
-        :model-value="modelValue"
-        @input="handleInput"
+        v-model="modelValue"
         class="form-input"
     >
       <provet-button
@@ -44,7 +43,7 @@ const props = withDefaults(defineProps<FormInputProps>(), {
   errorMessage: '',
 })
 
-const { id, label, modelValue, type, required, errorMessage } = toRefs(props)
+const { id, label, type, required, errorMessage } = toRefs(props)
 const attrs = useAttrs()
 
 const showPassword = ref(false)
@@ -65,10 +64,10 @@ const togglePassword = () => {
   showPassword.value = !showPassword.value
 }
 
-const handleInput = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  emit('update:modelValue', target.value)
-}
+const modelValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+})
 
 const computedInputProps = computed(() => ({
   id: id.value,
