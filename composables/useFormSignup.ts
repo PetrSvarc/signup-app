@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { useInputValidator } from './useInputValidator'
-import { required, isEmail, minLength } from './validators'
+import { required, isEmail, minLength } from '../utils/validators/validators'
 
 export function useFormSignup() {
   const email = ref('')

@@ -1,16 +1,13 @@
-// Types
 type ValidatorValue = string | null | undefined
 type ValidationResult = string | null
 type ValidatorFn = (value: ValidatorValue) => ValidationResult
 type ValidationRuleFn = (value: ValidatorValue) => boolean
 
-// Interfaces
 interface ValidationRule {
   validate: ValidationRuleFn
   message: string
 }
 
-// Base validator factory
 const createValidator = (rule: ValidationRule): ValidatorFn => {
   return (value: ValidatorValue): ValidationResult => {
     if (!rule.validate(value)) {
@@ -20,10 +17,9 @@ const createValidator = (rule: ValidationRule): ValidatorFn => {
   }
 }
 
-// Validation rules
 const validationRules = {
   required: (message = 'This field is required'): ValidationRule => ({
-    validate: (value: ValidatorValue): boolean => Boolean(value && (typeof value === 'string' ? value.trim() !== '' : true)),
+    validate: (value: ValidatorValue): boolean => Boolean(value && (value.trim() !== '')),
     message
   }),
 
@@ -45,12 +41,11 @@ const validationRules = {
   })
 }
 
-// Exported validator functions
-export const required = (message?: string): ValidatorFn => 
+export const required = (message?: string): ValidatorFn =>
   createValidator(validationRules.required(message))
 
-export const isEmail = (message?: string): ValidatorFn => 
+export const isEmail = (message?: string): ValidatorFn =>
   createValidator(validationRules.email(message))
 
-export const minLength = (length: number, message?: string): ValidatorFn => 
-  createValidator(validationRules.minLength(length, message)) 
+export const minLength = (length: number, message?: string): ValidatorFn =>
+  createValidator(validationRules.minLength(length, message))
