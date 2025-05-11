@@ -32,6 +32,7 @@ export type FormField = InputField | CheckboxField
 
 export function useForm(fields: Omit<FormField, 'validate' | 'errorMessage'>[]) {
   const isSubmitted = ref(false)
+  const isSubmitting = ref(false)
 
   const formFields = ref(fields.map(field => {
     const { error, validate } = useInputValidator(field.validators || [])
@@ -59,17 +60,21 @@ export function useForm(fields: Omit<FormField, 'validate' | 'errorMessage'>[]) 
   const submit = async () => {
     if (!validateForm()) return false
 
-    // Simulate a "fake" API call
-    await new Promise(resolve => setTimeout(resolve, 800))
-
-    return true
+    isSubmitting.value = true
+    try {
+      // Simulate a "fake" API call
+      await new Promise(resolve => setTimeout(resolve, 800))
+      return true
+    } finally {
+      isSubmitting.value = false
+    }
   }
 
   const getFieldValue = (name: string) => {
     return formFields.value.find(field => field.name === name)?.value
   }
 
-  const setFieldValue = (name: string, value: any) => {
+  const setFieldValue = (name: string, value: string | boolean) => {
     const field = formFields.value.find(field => field.name === name)
     if (field) {
       field.value = value
@@ -81,6 +86,7 @@ export function useForm(fields: Omit<FormField, 'validate' | 'errorMessage'>[]) 
     validateForm,
     submit,
     getFieldValue,
-    setFieldValue
+    setFieldValue,
+    isSubmitting
   }
 }
