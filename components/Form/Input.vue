@@ -75,7 +75,7 @@ const computedInputProps = computed(() => ({
   label: label.value,
   type: type.value === 'password' && showPassword.value ? 'text' : type.value,
   required: required.value,
-  ...(errorMessage.value && { error: errorMessage.value }),
+  ...(errorMessage.value && { error: errorMessage.value || undefined }),
   ...attrs,
 }))
 </script>

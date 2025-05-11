@@ -30,17 +30,11 @@
             :error-message="passwordError"
           />
 
-          <div class="flex items-center">
-            <input
-              id="wants-updates"
-              v-model="wantsUpdates"
-              type="checkbox"
-              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-            />
-            <label for="wants-updates" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">
-              I want to receive updates about new features
-            </label>
-          </div>
+          <FormCheckbox
+            id="wants-updates"
+            v-model="wantsUpdates"
+            label="I want to receive updates about new features"
+          />
 
           <div>
             <provet-button id="submit-button" type="submit" class="w-full" :disabled="isSubmitting">
@@ -56,6 +50,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import FormInput from '~/components/Form/Input.vue'
+import FormCheckbox from '~/components/Form/Checkbox.vue'
 import { useFormSignup } from '~/composables/useFormSignup'
 
 const {
