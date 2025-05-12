@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import type { ValidatorFn as ExternalValidatorFn } from '~/utils/validators/validators'
+import type { ValidatorFn as ExternalValidatorFn } from '~/composables/useFormValidation'
 
 export function useInputValidator(validators: ExternalValidatorFn[]) {
   const error = ref<string | null>(null)

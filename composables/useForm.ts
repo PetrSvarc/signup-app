@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue'
 import { useInputValidator } from './useInputValidator'
-import type { ValidatorFn, ValidationResult } from '~/utils/validators/validators'
+import type { ValidatorFn, ValidationResult } from '~/composables/useFormValidation'
 
 export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url'
 
