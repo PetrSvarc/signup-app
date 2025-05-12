@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 
-defineProps({
+const props = defineProps({
   error: Object as () => NuxtError
 })
+
+const handleError = () => clearError({ redirect: '/' })
 </script>
 
 <template>
@@ -17,12 +19,12 @@ defineProps({
         </p>
       </div>
       <div class="mt-6">
-        <NuxtLink
-          to="/"
-          class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900 transition-colors duration-200"
+        <provet-button
+          variant="primary"
+          @click="handleError"
         >
           Go back home
-        </NuxtLink>
+        </provet-button>
       </div>
     </div>
   </div>
