@@ -33,10 +33,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { signupFormFields } from '~/utils/forms/signup'
 
 const formRef = ref()
-const formFields = signupFormFields
+const { signupFormFields : formFields } = useSignupForm()
 
 const handleFormSubmit = () => {
   formRef.value?.submit()

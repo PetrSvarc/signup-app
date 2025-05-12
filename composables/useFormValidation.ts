@@ -51,14 +51,23 @@ const validationRules = {
   })
 }
 
-export const required = (message?: string): ValidatorFn =>
-  createValidator(validationRules.required(message))
+export const useFormValidation = () => {
+  const required = (message?: string): ValidatorFn =>
+    createValidator(validationRules.required(message))
 
-export const requiredCheckbox = (message?: string): ValidatorFn =>
-  createValidator(validationRules.requiredCheckbox(message))
+  const requiredCheckbox = (message?: string): ValidatorFn =>
+    createValidator(validationRules.requiredCheckbox(message))
 
-export const isEmail = (message?: string): ValidatorFn =>
-  createValidator(validationRules.email(message))
+  const isEmail = (message?: string): ValidatorFn =>
+    createValidator(validationRules.email(message))
 
-export const minLength = (length: number, message?: string): ValidatorFn =>
-  createValidator(validationRules.minLength(length, message))
+  const minLength = (length: number, message?: string): ValidatorFn =>
+    createValidator(validationRules.minLength(length, message))
+
+  return {
+    required,
+    requiredCheckbox,
+    isEmail,
+    minLength
+  }
+} 
