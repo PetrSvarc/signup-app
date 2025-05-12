@@ -2,8 +2,8 @@
   <div class="w-full">
     <provet-checkbox
       :id="id"
-      :error="errorMessage"
       v-model="modelValue"
+      :error="errorMessage"
       type="checkbox"
       :label="label"
       :required="required"

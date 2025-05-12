@@ -5,16 +5,18 @@
         v-model="modelValue"
         class="form-input"
     >
-      <provet-button
+      <template #end>
+<provet-button
         v-if="type === 'password'"
-        @click="togglePassword"
         aria-describedby="password-tooltip"
         block
-        slot="end"
         square
+        
+        @click="togglePassword"
       >
         <provet-icon :name="passwordIcon" />
       </provet-button>
+</template>
     </provet-input>
 
     <provet-tooltip v-if="type === 'password'" id="password-tooltip">
