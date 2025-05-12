@@ -21,12 +21,12 @@
             We've sent a confirmation email to your inbox. Please check it to verify your account.
           </p>
           <div class="flex justify-center">
-            <NuxtLink
-              to="/"
-              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+            <provet-button
+              variant="primary"
+              @click="navigateTo('/')"
             >
               Return to Home
-            </NuxtLink>
+            </provet-button>
           </div>
         </div>
       </div>

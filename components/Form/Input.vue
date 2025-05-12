@@ -7,11 +7,11 @@
     >
       <provet-button
         v-if="type === 'password'"
-        @click="togglePassword"
+        slot="end"
         aria-describedby="password-tooltip"
         block
-        slot="end"
         square
+        @click="togglePassword"
       >
         <provet-icon :name="passwordIcon" />
       </provet-button>

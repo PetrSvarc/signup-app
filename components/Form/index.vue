@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent class="space-y-4">
+  <form class="space-y-4" @submit.prevent>
     <div v-for="field in formFields" :key="field.id">
       <template v-if="field.fieldType === 'input'">
         <Input
