@@ -3,8 +3,7 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <div class="flex justify-center">
         <div class="rounded-full bg-green-100 dark:bg-green-900 p-3 w-12 h-12 flex items-center justify-center">
-          <provet-icon name="interface-checked" class="text-green-600 dark:text-green-400">
-          </provet-icon>
+          <provet-icon name="interface-checked" class="text-green-600 dark:text-green-400" />
         </div>
       </div>
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
@@ -34,7 +33,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import SvgCheck from '~/components/Icon/Check.vue'
-</script>

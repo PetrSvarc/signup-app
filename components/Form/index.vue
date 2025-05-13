@@ -4,14 +4,14 @@
       <component
         :is="getComponent(field.fieldType)"
         :id="field.id"
-        @input="handleInput(field)"
-        :expand="field?.expand"
         v-model="field.value"
+        :expand="field?.expand"
         :type="field.fieldType === 'input' ? field.type : undefined"
         :label="field.label"
         :required="field.required"
         :disabled="field.disabled"
         :error-message="field.errorMessage || undefined"
+        @input="handleInput(field)"
       />
     </div>
     <slot />
