@@ -45,5 +45,6 @@ const handleFormSubmit = () => {
 
 const handleSubmit = (data: Record<string, FormField['value']>) => {
   console.log('Form data:', data)
+  navigateTo('/confirmation')
 }
 </script>
