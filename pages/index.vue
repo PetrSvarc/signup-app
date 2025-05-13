@@ -15,6 +15,7 @@
           <Form
             ref="formRef"
             :fields="formFields"
+            progressive-validation
             @submit="handleSubmit"
           />
           <div>

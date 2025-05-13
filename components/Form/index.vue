@@ -4,6 +4,7 @@
       <component
         :is="getComponent(field.fieldType)"
         :id="field.id"
+        @input="handleInput(field)"
         :expand="field?.expand"
         v-model="field.value"
         :type="field.fieldType === 'input' ? field.type : undefined"
@@ -11,7 +12,6 @@
         :required="field.required"
         :disabled="field.disabled"
         :error-message="field.errorMessage || undefined"
-
       />
     </div>
     <slot />
@@ -22,14 +22,18 @@
 import type { FormField } from '~/composables/useForm'
 import { useForm, FieldType } from '~/composables/useForm'
 import type { Component } from 'vue'
+import { useDebounceFn } from "@vueuse/core";
 
 type FormFieldInput = Omit<FormField, 'validate' | 'errorMessage'>
 
 interface FormProps {
-  fields: FormFieldInput[]
+  fields: FormFieldInput[],
+  progressiveValidation?: boolean
 }
 
-const props = defineProps<FormProps>()
+const props = withDefaults(defineProps<FormProps>(), {
+  progressiveValidation: false,
+})
 
 const emit = defineEmits<{
   submit: [data: Record<string, FormField['value']>]
@@ -55,6 +59,12 @@ const handleSubmit = async () => {
     emit('submit', formData)
   }
 }
+
+const handleInput = useDebounceFn((field: typeof formFields.value[number]) => {
+  if(props.progressiveValidation) {
+    field.validate(field.value)
+  }
+}, 300)
 
 defineExpose({
   submit: handleSubmit
