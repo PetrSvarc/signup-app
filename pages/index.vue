@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { FormField } from '~/composables/useForm'
 
 const formRef = ref()
 const { signupFormFields : formFields } = useSignupForm()
@@ -41,7 +42,7 @@ const handleFormSubmit = () => {
   formRef.value?.submit()
 }
 
-const handleSubmit = (data: Record<string, any>) => {
+const handleSubmit = (data: Record<string, FormField['value']>) => {
   console.log('Form data:', data)
 }
 </script>
