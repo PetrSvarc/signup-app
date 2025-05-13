@@ -2,24 +2,24 @@
   <form class="space-y-4" @submit.prevent>
     <div v-for="field in formFields" :key="field.id">
       <template v-if="field.fieldType === 'input'">
-        <Input
+        <FormInput
           :id="field.id"
           v-model="field.value"
           :type="field.type"
           :label="field.label"
           :required="field.required"
           :disabled="field.disabled"
-          :error-message="field.errorMessage"
+          :error-message="field.errorMessage || undefined"
         />
       </template>
       <template v-else-if="field.fieldType === 'checkbox'">
-        <Checkbox
+        <FormCheckbox
           :id="field.id"
           v-model="field.value"
           :label="field.label"
           :required="field.required"
           :disabled="field.disabled"
-          :error-message="field.errorMessage"
+          :error-message="field.errorMessage || undefined"
         />
       </template>
     </div>
@@ -30,8 +30,6 @@
 <script setup lang="ts">
 import type { FormField } from '~/composables/useForm'
 import { useForm } from '~/composables/useForm'
-import Input from '~/components/Form/Input.vue'
-import Checkbox from '~/components/Form/Checkbox.vue'
 
 type FormFieldInput = Omit<FormField, 'validate' | 'errorMessage'>
 
@@ -42,18 +40,17 @@ interface FormProps {
 const props = defineProps<FormProps>()
 
 const emit = defineEmits<{
-  submit: [data: Record<string, any>]
+  submit: [data: Record<string, FormField['value']>]
 }>()
 
-const { formFields, submit } = useForm(props.fields)
+const { formFields, validateForm } = useForm(props.fields)
 
 const handleSubmit = async () => {
-  const success = await submit()
-  if (success) {
+  if (validateForm()) {
     const formData = formFields.value.reduce((acc, field) => {
       acc[field.name] = field.value
       return acc
-    }, {} as Record<string, any>)
+    }, {} as Record<string, FormField['value']>)
     emit('submit', formData)
   }
 }

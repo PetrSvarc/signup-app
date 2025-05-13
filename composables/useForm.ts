@@ -57,12 +57,13 @@ export function useForm(fields: Omit<FormField, 'validate' | 'errorMessage'>[]) 
     return isValid
   }
 
-  const submit = async () => {
+  const submit = async (url: string) => {
     if (!validateForm()) return false
 
     isSubmitting.value = true
     try {
       // Simulate a "fake" API call
+      console.log('Submitting form to:', url)
       await new Promise(resolve => setTimeout(resolve, 800))
       return true
     } finally {
