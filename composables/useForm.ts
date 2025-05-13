@@ -11,6 +11,7 @@ export interface BaseField<T = string | boolean> {
   value: T
   required?: boolean
   disabled?: boolean
+  expand?: boolean
   validators?: ValidatorFn[]
 }
 

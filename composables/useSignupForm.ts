@@ -9,6 +9,7 @@ export const useSignupForm = () => {
   const signupFormFields: FormField[] = [
     {
       id: 'email',
+      expand: true,
       name: 'email',
       fieldType: 'input',
       type: 'email',
@@ -19,6 +20,7 @@ export const useSignupForm = () => {
     },
     {
       id: 'password',
+      expand: true,
       name: 'password',
       fieldType: 'input',
       type: 'password',

@@ -1,27 +1,18 @@
 <template>
   <form class="space-y-4" @submit.prevent>
     <div v-for="field in formFields" :key="field.id">
-      <template v-if="field.fieldType === 'input'">
-        <FormInput
-          :id="field.id"
-          v-model="field.value"
-          :type="field.type"
-          :label="field.label"
-          :required="field.required"
-          :disabled="field.disabled"
-          :error-message="field.errorMessage || undefined"
-        />
-      </template>
-      <template v-else-if="field.fieldType === 'checkbox'">
-        <FormCheckbox
-          :id="field.id"
-          v-model="field.value"
-          :label="field.label"
-          :required="field.required"
-          :disabled="field.disabled"
-          :error-message="field.errorMessage || undefined"
-        />
-      </template>
+      <component
+        :is="getComponent(field.fieldType)"
+        :id="field.id"
+        :expand="field?.expand"
+        v-model="field.value"
+        :type="field.fieldType === 'input' ? field.type : undefined"
+        :label="field.label"
+        :required="field.required"
+        :disabled="field.disabled"
+        :error-message="field.errorMessage || undefined"
+
+      />
     </div>
     <slot />
   </form>
@@ -30,6 +21,7 @@
 <script setup lang="ts">
 import type { FormField } from '~/composables/useForm'
 import { useForm } from '~/composables/useForm'
+import type { Component } from 'vue'
 
 type FormFieldInput = Omit<FormField, 'validate' | 'errorMessage'>
 
@@ -44,6 +36,16 @@ const emit = defineEmits<{
 }>()
 
 const { formFields, validateForm } = useForm(props.fields)
+
+const componentMap: Record<string, string | Component> = {
+  default: resolveComponent('FormInput'),
+  input:  resolveComponent('FormInput'),
+  checkbox: resolveComponent('FormCheckbox'),
+}
+
+const getComponent = (fieldType: string) => {
+  return componentMap[fieldType] || componentMap.default
+}
 
 const handleSubmit = async () => {
   if (validateForm()) {
