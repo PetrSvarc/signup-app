@@ -4,6 +4,11 @@ import type { ValidatorFn, ValidationResult } from '~/composables/useFormValidat
 
 export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url'
 
+export enum FieldType {
+  INPUT = 'input',
+  CHECKBOX = 'checkbox'
+}
+
 export interface BaseField<T = string | boolean> {
   id: string
   name: string
@@ -11,18 +16,19 @@ export interface BaseField<T = string | boolean> {
   value: T
   required?: boolean
   disabled?: boolean
+  expand?: boolean
   validators?: ValidatorFn[]
 }
 
 export interface InputField extends BaseField<string> {
-  fieldType: 'input'
+  fieldType: FieldType.INPUT
   type: InputType
   validate: (value: string | boolean) => boolean
   errorMessage: Ref<ValidationResult>
 }
 
 export interface CheckboxField extends BaseField<boolean> {
-  fieldType: 'checkbox'
+  fieldType: FieldType.CHECKBOX
   type: 'checkbox'
   validate: (value: string | boolean) => boolean
   errorMessage: Ref<ValidationResult>
