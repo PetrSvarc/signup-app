@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import type { FormField } from '~/composables/useForm'
-import { useForm } from '~/composables/useForm'
+import { useForm, FieldType } from '~/composables/useForm'
 import type { Component } from 'vue'
 
 type FormFieldInput = Omit<FormField, 'validate' | 'errorMessage'>
@@ -37,14 +37,13 @@ const emit = defineEmits<{
 
 const { formFields, validateForm } = useForm(props.fields)
 
-const componentMap: Record<string, string | Component> = {
-  default: resolveComponent('FormInput'),
-  input:  resolveComponent('FormInput'),
-  checkbox: resolveComponent('FormCheckbox'),
+const componentMap: Record<FieldType, string | Component> = {
+  [FieldType.INPUT]: resolveComponent('FormInput'),
+  [FieldType.CHECKBOX]: resolveComponent('FormCheckbox'),
 }
 
-const getComponent = (fieldType: string) => {
-  return componentMap[fieldType] || componentMap.default
+const getComponent = (fieldType: FieldType) => {
+  return componentMap[fieldType] || componentMap[FieldType.INPUT]
 }
 
 const handleSubmit = async () => {
